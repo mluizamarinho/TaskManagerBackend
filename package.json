@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/mluizamarinho/TaskManagerBackend#readme",
   "dependencies": {
+    "@prisma/client": "^5.17.0",
     "express": "^4.19.2"
   },
   "devDependencies": {
