@@ -12,3 +12,19 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model User {
+  id String @id @default(uuid())
+  name String 
+  tasks Task[]
+}
+
+model Task {
+  id String @id @default(uuid())
+  name String 
+  type String @default("A FAZER")
+
+  userID String?
+  user User? @relation(fields: [userID], references: [id])
+}
