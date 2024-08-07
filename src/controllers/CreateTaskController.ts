@@ -4,10 +4,12 @@ import { request } from 'http'
 
 export class CreateTaskController {
 
-    async handle(request: Request, response: Response){
+    async createTask(request: Request, response: Response){
         const {id, name, type, userID} = request.body;
 
-        const task =  await PrismaClient.task.create({
+        const prismaClient = new PrismaClient();
+
+        const task =  await prismaClient.task.create({
             data: {
                 id,
                 name,
