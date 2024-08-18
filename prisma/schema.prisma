@@ -19,13 +19,29 @@ model User {
   name String 
   type String @default("PADRÃO")
   tasks Task[]
+  boards Board[]
 }
 
 model Task {
   id String @id @default(uuid())
   name String 
-  type String @default("A FAZER")
+  status String @default("NÃO INICIADA")
+  creation_date DateTime
+  conclusion_date DateTime
 
   userID String?
   user User? @relation(fields: [userID], references: [id])
+  boardID String?
+  board Board? @relation(fields: [boardID], references: [id])
+}
+
+model Board {
+  id String @id @default(uuid())
+  name String 
+  description String 
+  creation_date DateTime
+
+  userID String?
+  user User? @relation(fields: [userID], references: [id])
+  tasks Task[]
 }
