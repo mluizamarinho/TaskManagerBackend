@@ -8,7 +8,7 @@ class TaskController {
         this.taskRepository = new TaskRepository();
     }
 
-    // Cria uma nova tarefa
+    
     public async createTask(req: Request, res: Response): Promise<Response> {
         const { name, status, creationDate, conclusionDate, userId, boardId } = req.body;
 
@@ -28,7 +28,7 @@ class TaskController {
         }
     }
 
-    // Recupera todas as tarefas
+    
     public async getTasks(req: Request, res: Response): Promise<Response> {
         try {
             const tasks = await this.taskRepository.findAllTasks();
@@ -38,7 +38,7 @@ class TaskController {
         }
     }
 
-    // Recupera uma tarefa pelo ID
+  
     public async getTaskById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
@@ -53,7 +53,6 @@ class TaskController {
         }
     }
 
-    // Atualiza uma tarefa pelo ID
     public async updateTask(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { name, status, creationDate, conclusionDate, userId, boardId } = req.body;
