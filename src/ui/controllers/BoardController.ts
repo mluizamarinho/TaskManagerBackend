@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import BoardRepository from '../../infrastructure/repository/BoardRepository';
 
 class BoardController {
@@ -9,19 +9,19 @@ class BoardController {
     }
 
     public async createBoard(req: Request, res: Response): Promise<Response> {
-        const { name, description, creationDate, userId } = req.body;
+        const { name, description, creationDate, userIds } = req.body;
 
         try {
             const board = await this.boardRepository.createBoard({
                 name,
                 description,
                 creation_date: new Date(creationDate),
-                user: userId ? { connect: { id: userId } } : undefined,
+                users: userIds && userIds.length > 0 ? { connect: userIds.map((id: string) => ({ id })) } : undefined,
             });
 
             return res.status(201).json(board);
         } catch (error) {
-            return res.status(500).json({ error: console.error() });
+            return res.status(500).json({ error: 'An error occurred while creating the board.' });
         }
     }
 
@@ -30,7 +30,7 @@ class BoardController {
             const boards = await this.boardRepository.findAllBoards();
             return res.status(200).json(boards);
         } catch (error) {
-            return res.status(500).json({ error: console.error() });
+            return res.status(500).json({ error: 'An error occurred while fetching the boards.' });
         }
     }
 
@@ -44,25 +44,25 @@ class BoardController {
             }
             return res.status(200).json(board);
         } catch (error) {
-            return res.status(500).json({ error: console.error() });
+            return res.status(500).json({ error: 'An error occurred while fetching the board.' });
         }
     }
 
     public async updateBoard(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { name, description, creationDate, userId } = req.body;
+        const { name, description, creationDate, userIds } = req.body;
 
         try {
             const board = await this.boardRepository.updateBoard(id, {
                 name,
                 description,
                 creation_date: creationDate ? new Date(creationDate) : undefined,
-                user: userId ? { connect: { id: userId } } : undefined,
+                users: userIds && userIds.length > 0 ? { connect: userIds.map((id: string) => ({ id })) } : undefined,
             });
 
             return res.status(200).json(board);
         } catch (error) {
-            return res.status(500).json({ error: console.error() });
+            return res.status(500).json({ error: 'An error occurred while updating the board.' });
         }
     }
 
@@ -73,9 +73,12 @@ class BoardController {
             const board = await this.boardRepository.deleteBoard(id);
             return res.status(200).json(board);
         } catch (error) {
-            return res.status(500).json({ error: console.error() });
+            return res.status(500).json({ error: 'An error occurred while deleting the board.' });
         }
     }
 }
 
 export default new BoardController();
+
+
+

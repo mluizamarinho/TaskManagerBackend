@@ -14,7 +14,7 @@ class UserController {
             const user = await this.userRepository.createUser({ name, type });
             return res.status(201).json(user);
         } catch (error) {
-            return res.status(500).json({ error: console.error()});
+            return res.status(500).json({ error: console.error('deu erro') });
         }
     }
 
@@ -40,7 +40,34 @@ class UserController {
         }
     }
 
-    
+    async updateUser(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { name, type } = req.body;
+
+        try {
+            const user = await this.userRepository.updateUser(id, { name, type });
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).json({ error: console.error() });
+        }
+    }
+
+    async deleteUser(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        try {
+            const user = await this.userRepository.deleteUser(id);
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            return res.status(200).json({ message: 'User deleted successfully' });
+        } catch (error) {
+            return res.status(500).json({ error: console.error() });
+        }
+    }
 }
 
 export default new UserController();
