@@ -38,15 +38,17 @@ router.delete('/tasks/:id', TaskController.deleteTask);
 
 // rotas de user 
 
-router.post('/user', UserController.createUser);
+router.post('/user/register', UserController.createUser);
 
-router.get('/user', UserController.getUsers);
+router.get('/users', UserController.getUsers);
 
 router.get('/user/:id', UserController.getUserById)
 
 router.put('/user/:id', UserController.updateUser)
 
-router.delete('/user/:id', UserController.getUserById)
+router.delete('/user/:id', UserController.deleteUser)
+
+app.use('/api', router);
 
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);

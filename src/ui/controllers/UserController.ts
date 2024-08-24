@@ -2,25 +2,27 @@ import { Request, Response } from 'express';
 import UserRepository from '../../infrastructure/repository/UserRepository';
 
 class UserController {
-    private userRepository: UserRepository;
-
-    constructor() {
-        this.userRepository = new UserRepository();
-    }
-
+  
     async createUser(req: Request, res: Response): Promise<Response> {
         const { name, type } = req.body;
         try {
-            const user = await this.userRepository.createUser({ name, type });
-            return res.status(201).json(user);
+            const user = await UserRepository.createUser({ name, type });
+            return res.status(201).json({
+                message: 'Usuário criado com sucesso',
+                user: user
+            });
         } catch (error) {
-            return res.status(500).json({ error: console.error('deu erro') });
+            console.error('Erro ao criar usuário:', error);
+            return res.status(500).json({
+                message: 'Falha ao criar usuário',
+                error: error instanceof Error ? error.message : 'Erro desconhecido'
+            });
         }
     }
 
     async getUsers(req: Request, res: Response): Promise<Response> {
         try {
-            const users = await this.userRepository.findAllUsers();
+            const users = await UserRepository.findAllUsers();
             return res.status(200).json(users);
         } catch (error) {
             return res.status(500).json({ error: console.error() });
@@ -30,7 +32,7 @@ class UserController {
     async getUserById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         try {
-            const user = await this.userRepository.findUserById(id);
+            const user = await UserRepository.findUserById(id);
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
             }
@@ -45,7 +47,7 @@ class UserController {
         const { name, type } = req.body;
 
         try {
-            const user = await this.userRepository.updateUser(id, { name, type });
+            const user = await UserRepository.updateUser(id, { name, type });
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
             }
@@ -59,7 +61,7 @@ class UserController {
         const { id } = req.params;
 
         try {
-            const user = await this.userRepository.deleteUser(id);
+            const user = await UserRepository.deleteUser(id);
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
             }

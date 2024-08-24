@@ -58,4 +58,4 @@ class TaskRepository {
     }
 }
 
-export default TaskRepository;
+export default new TaskRepository;

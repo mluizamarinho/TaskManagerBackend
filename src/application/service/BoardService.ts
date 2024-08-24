@@ -1,15 +1,10 @@
 import BoardRepository from '../../infrastructure/repository/BoardRepository';
 
 class BoardService {
-    private boardRepository: BoardRepository;
-
-    constructor() {
-        this.boardRepository = new BoardRepository();
-    }
 
     public async createBoard(name: string, description: string, creationDate: string, userId?: string) {
         try {
-            const board = await this.boardRepository.createBoard({
+            const board = await BoardRepository.createBoard({
                 name,
                 description,
                 creation_date: new Date(creationDate),
@@ -23,7 +18,7 @@ class BoardService {
 
     public async getBoards() {
         try {
-            const boards = await this.boardRepository.findAllBoards();
+            const boards = await BoardRepository.findAllBoards();
             return boards;
         } catch (error) {
             throw new Error(`Failed to fetch boards`);
@@ -32,7 +27,7 @@ class BoardService {
 
     public async getBoardById(id: string) {
         try {
-            const board = await this.boardRepository.findBoardById(id);
+            const board = await BoardRepository.findBoardById(id);
             if (!board) {
                 throw new Error('Board not found');
             }
@@ -44,7 +39,7 @@ class BoardService {
 
     public async updateBoard(id: string, name?: string, description?: string, creationDate?: string, userId?: string) {
         try {
-            const board = await this.boardRepository.updateBoard(id, {
+            const board = await BoardRepository.updateBoard(id, {
                 name,
                 description,
                 creation_date: creationDate ? new Date(creationDate) : undefined,
@@ -58,7 +53,7 @@ class BoardService {
 
     public async deleteBoard(id: string) {
         try {
-            const board = await this.boardRepository.deleteBoard(id);
+            const board = await BoardRepository.deleteBoard(id);
             if (!board) {
                 throw new Error('Board not found');
             }

@@ -58,4 +58,4 @@ class BoardRepository {
     }
 }
 
-export default BoardRepository;
+export default new BoardRepository;
