@@ -16,8 +16,9 @@ datasource db {
 
 model User {
   id     String @id @default(uuid())
-  name   String
-  type   String @default("PADRÃO")
+  name   String @unique
+  password String  
+  type   String @default("padrao")
   tasks  Task[] @relation("UserTasks")
   boards Board[] @relation("UserBoards")
 }

@@ -2,57 +2,48 @@ import { Router } from 'express';
 import BoardController from '../controllers/BoardController';
 import TaskController from '../controllers/TaskController';
 import UserController from '../controllers/UserController';
-import express, { Request, Response } from 'express';
+import { register, login } from '../controllers/authController';
+import { authenticateToken, authorizeRoles } from './authMiddleware';
+import express from 'express';
 
 const app = express();
 const port = 3000;
 
-
 app.use(express.json());
-
 
 const router = Router();
 
-// rotas de board
-router.post('/boards', BoardController.createBoard);
+// Rotas de Board (protegidas para scrummasters)
+router.post('/boards', authenticateToken, authorizeRoles(['scrummaster']), BoardController.createBoard);
+router.get('/boards', authenticateToken, authorizeRoles(['scrummaster']), BoardController.getBoards);
+router.get('/boards/:id', authenticateToken, authorizeRoles(['scrummaster']), BoardController.getBoardById);
+router.put('/boards/:id', authenticateToken, authorizeRoles(['scrummaster']), BoardController.updateBoard);
+router.delete('/boards/:id', authenticateToken, authorizeRoles(['scrummaster']), BoardController.deleteBoard);
 
-router.get('/boards', BoardController.getBoards);
+// Rotas de Task (protegidas para scrummasters)
+router.post('/tasks', authenticateToken, authorizeRoles(['scrummaster']), TaskController.createTask);
+router.get('/tasks', authenticateToken, authorizeRoles(['scrummaster']), TaskController.getTasks);
+router.get('/tasks/:id', authenticateToken, authorizeRoles(['scrummaster']), TaskController.getTaskById);
+router.put('/tasks/:id', authenticateToken, authorizeRoles(['scrummaster']), TaskController.updateTask);
+router.delete('/tasks/:id', authenticateToken, authorizeRoles(['scrummaster']), TaskController.deleteTask);
 
-router.get('/boards/:id', BoardController.getBoardById);
-
-router.put('/boards/:id', BoardController.updateBoard);
-
-router.delete('/boards/:id', BoardController.deleteBoard);
-
-
-// rotas de task 
-router.post('/tasks', TaskController.createTask);
-
-router.get('/tasks', TaskController.getTasks);
-
-router.get('/tasks/:id', TaskController.getTaskById);
-
-router.put('/tasks/:id', TaskController.updateTask);
-
-router.delete('/tasks/:id', TaskController.deleteTask);
-
-// rotas de user 
-
+// Rotas de User (não protegidas, mas podem ser adicionadas proteção conforme necessário)
 router.post('/user/register', UserController.createUser);
+router.get('/users', authenticateToken, UserController.getUsers);
+router.get('/user/:id', authenticateToken, UserController.getUserById);
+router.put('/user/:id', authenticateToken, UserController.updateUser);
+router.delete('/user/:id', authenticateToken, UserController.deleteUser);
 
-router.get('/users', UserController.getUsers);
+// Novas rotas de autenticação
+router.post('/register', register);
+router.post('/login', login);
 
-router.get('/user/:id', UserController.getUserById)
-
-router.put('/user/:id', UserController.updateUser)
-
-router.delete('/user/:id', UserController.deleteUser)
+// Rota protegida geral
+router.get('/protected', authenticateToken, (req, res) => {
+  const user = (req as any).user;
+  res.json({ message: 'Você está autenticado!', user });
+});
 
 app.use('/api', router);
-
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
-  });
-  
 
 export default router;
