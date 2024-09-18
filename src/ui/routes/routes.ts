@@ -14,22 +14,22 @@ app.use(express.json());
 const router = Router();
 
 // Rotas de Board (protegidas para scrummasters)
-router.post('/boards', authenticateToken, authorizeRoles(['scrummaster']), BoardController.createBoard);
+router.post('/boards/register', authenticateToken, authorizeRoles(['scrummaster']), BoardController.createBoard);
 router.get('/boards', authenticateToken, authorizeRoles(['scrummaster']), BoardController.getBoards);
 router.get('/boards/:id', authenticateToken, authorizeRoles(['scrummaster']), BoardController.getBoardById);
 router.put('/boards/:id', authenticateToken, authorizeRoles(['scrummaster']), BoardController.updateBoard);
 router.delete('/boards/:id', authenticateToken, authorizeRoles(['scrummaster']), BoardController.deleteBoard);
 
 // Rotas de Task (protegidas para scrummasters)
-router.post('/tasks', authenticateToken, authorizeRoles(['scrummaster']), TaskController.createTask);
-router.get('/tasks', authenticateToken, authorizeRoles(['scrummaster']), TaskController.getTasks);
-router.get('/tasks/:id', authenticateToken, authorizeRoles(['scrummaster']), TaskController.getTaskById);
+router.post('/tasks', authenticateToken, TaskController.createTask);
+router.get('/tasks', authenticateToken, TaskController.getTasks);
+router.get('/tasks/:id',  TaskController.getTaskById);
 router.put('/tasks/:id', authenticateToken, authorizeRoles(['scrummaster']), TaskController.updateTask);
-router.delete('/tasks/:id', authenticateToken, authorizeRoles(['scrummaster']), TaskController.deleteTask);
+router.delete('/tasks/:id', authenticateToken, TaskController.deleteTask);
 
 // Rotas de User (não protegidas, mas podem ser adicionadas proteção conforme necessário)
 router.post('/user/register', UserController.createUser);
-router.get('/users', authenticateToken, UserController.getUsers);
+router.get('/users', authenticateToken,authorizeRoles(['scrummaster']), UserController.getUsers);
 router.get('/user/:id', authenticateToken, UserController.getUserById);
 router.put('/user/:id', authenticateToken, UserController.updateUser);
 router.delete('/user/:id', authenticateToken, UserController.deleteUser);
