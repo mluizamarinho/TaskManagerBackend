@@ -15,8 +15,7 @@ class AuthService {
   // gerencia o registro de usuários e a autenticação, utilizando bcrypt para hashing de senhas e jwt para geração de tokens JWT.
   // O usuário é criado no banco de dados por meio do UserRepository.
   public async registerUser(name: string, password: string, type: string = 'PADRÃO'): Promise<void> {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await UserRepository.createUser({ name, password: hashedPassword, type });
+    await UserRepository.createUser({ name, password, type });
   }
 
   // método verifica se o usuário existe e se a senha está correta.

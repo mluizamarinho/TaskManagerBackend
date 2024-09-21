@@ -8,10 +8,7 @@ class UserService {
       throw new Error('Name, password, and type are required');
     }
 
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    return await UserRepository.createUser({ name, password: hashedPassword, type });
+    return await UserRepository.createUser({ name, password, type });
   }
 
   // Método para buscar um usuário por ID
