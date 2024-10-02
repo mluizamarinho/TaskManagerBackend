@@ -1,10 +1,19 @@
 import React from 'react';
+import { Barra } from "../../components/Barra";
+import { useNavigate} from 'react-router-dom';
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); 
+    navigate('/home');
+  }
     return (
       <>
-      <div style={{width: '100%', backgroundColor: '#d41616', height: '50px'}}>.
-      </div>
+      <Barra></Barra>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
         <h1 style={{ color: '#d41616', marginTop: '50px', fontSize: '50px' }}>
           Task Manager
@@ -18,12 +27,13 @@ const Login = () => {
           style={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            gap: '10px', 
-            marginRight: '60px', // Alinha o formulário à direita
-            marginTop: '80px', // Ajusta a distância entre o título e o formulário
-            alignSelf: 'flex-end', // Mantém o formulário no lado direito
-            width: '30%'
+            marginTop: '80px', 
+            alignSelf: 'flex-end', 
+            width: '30%',
+            marginRight: '35px',
+            gap: '10px'
           }}
+          onSubmit={handleSubmit}
         >
           <label style={{ fontSize: '18px', marginBottom: '5px' }}>Username:</label>
           <input 
@@ -66,8 +76,6 @@ const Login = () => {
         </form>
 
         </div>
-
-        <div style={{backgroundColor: '#ffd51c', height: '400px', width: '30%', borderRadius: '3000px'}}>.</div>
 
       </>
     );
