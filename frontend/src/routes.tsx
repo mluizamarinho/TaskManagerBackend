@@ -10,7 +10,7 @@ const routes = () =>{
         <Routes>
             <Route path="/" element={<Login></Login>} ></Route>
             <Route path="/home" element={<Home></Home>} ></Route>
-            <Route path="/board" element={<Board></Board>} ></Route>
+            <Route path="/board/:projectName" element={<Board />} />
         </Routes>
     )
 }
