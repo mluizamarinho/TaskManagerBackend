@@ -35,14 +35,15 @@ bash
 
 Rodando o Frontend
 
-    Instalar as dependências do React:
+  Instalar as dependências do React:
 
-    Navegue até a pasta do frontend e instale as dependências necessárias:
+  Navegue até a pasta do frontend e instale as dependências necessárias:
 
-    bash
+bash
 
-cd frontend
-npm install
+    cd frontend
+    npm install
+
 
 Executar o servidor do frontend:
 
@@ -51,4 +52,5 @@ Execute o seguinte comando para iniciar o servidor de desenvolvimento do React:
 bash
 
     npm run dev
+
 
