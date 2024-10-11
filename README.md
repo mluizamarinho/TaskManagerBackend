@@ -11,7 +11,8 @@ Execute o seguinte comando para iniciar o banco de dados com Docker Compose:
 
 bash
 
-docker-compose up
+    docker compose up
+
 
 Configurar o Prisma:
 
@@ -19,7 +20,8 @@ Após o banco de dados estar rodando, execute o comando abaixo para sincronizar 
 
 bash
 
-npx prisma db push
+    npx prisma db push
+
 
 Executar o servidor:
 
@@ -28,6 +30,8 @@ Por fim, inicie o servidor do backend:
 bash
 
     npm run dev
+
+
 
 Rodando o Frontend
 
