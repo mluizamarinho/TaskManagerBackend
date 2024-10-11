@@ -11,7 +11,6 @@ class BoardController {
             const board = await BoardRepository.createBoard({
                 name,
                 description,
-                creation_date: new Date(creationDate),
                 users: userIds && userIds.length > 0 ? { connect: userIds.map((id: string) => ({ id })) } : undefined,
             });
 
@@ -52,7 +51,6 @@ class BoardController {
             const board = await BoardRepository.updateBoard(id, {
                 name,
                 description,
-                creation_date: creationDate ? new Date(creationDate) : undefined,
                 users: userIds && userIds.length > 0 ? { connect: userIds.map((id: string) => ({ id })) } : undefined,
             });
 

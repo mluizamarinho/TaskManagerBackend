@@ -6,14 +6,12 @@ class TaskController {
 
     // Cria uma nova tarefa
     public async createTask(req: Request, res: Response): Promise<Response> {
-        const { name, status, creationDate, conclusionDate, userIds, boardId } = req.body;
+        const { name, status, userIds, boardId } = req.body;
 
         try {
             const task = await TaskRepository.createTask({
                 name,
                 status,
-                creation_date: new Date(creationDate),
-                conclusion_date: new Date(conclusionDate),
                 users: userIds && userIds.length > 0 ? { connect: userIds.map((id: string) => ({ id })) } : undefined,
                 board: boardId ? { connect: { id: boardId } } : undefined,
             });
@@ -52,14 +50,12 @@ class TaskController {
     // Atualiza uma tarefa existente
     public async updateTask(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const { name, status, creationDate, conclusionDate, userIds, boardId } = req.body;
+        const { name, status, userIds, boardId } = req.body;
 
         try {
             const task = await TaskRepository.updateTask(id, {
                 name,
                 status,
-                creation_date: creationDate ? new Date(creationDate) : undefined,
-                conclusion_date: conclusionDate ? new Date(conclusionDate) : undefined,
                 users: userIds && userIds.length > 0 ? { connect: userIds.map((id: string) => ({ id })) } : undefined,
                 board: boardId ? { connect: { id: boardId } } : undefined,
             });

@@ -1,18 +1,19 @@
 {
- "compilerOptions": {
-   "target": "ES6", // ou "ES2015"
-   "module": "commonjs",
-   "strict": true,
-   "esModuleInterop": true,
-   "skipLibCheck": true,
-   "outDir": "./dist"
- },
- "include": [
-   "src/**/*.ts", "tests/**/*.ts"
- ],
- "exclude": [
-   "dist",
-   "node_modules",
-   "**/*.spec.ts"
- ]
+  "compilerOptions": {
+    "target": "ES6", 
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist"
+  },
+  "include": [
+    "backend/src/**/*.ts",  // Novo caminho para os arquivos TypeScript
+    "backend/tests/**/*.ts"  // Novo caminho para os arquivos de teste
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }

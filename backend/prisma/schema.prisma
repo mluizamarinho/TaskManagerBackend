@@ -27,8 +27,7 @@ model Task {
   id              String @id @default(uuid())
   name            String
   status          String @default("NÃO INICIADA")
-  creation_date   DateTime
-  conclusion_date DateTime?
+
   users           User[] @relation("UserTasks")
   boardID         String?
   board           Board?  @relation(fields: [boardID], references: [id])
@@ -38,7 +37,6 @@ model Board {
   id            String @id @default(uuid())
   name          String
   description   String
-  creation_date DateTime
   users         User[] @relation("UserBoards")
   tasks         Task[]
 }

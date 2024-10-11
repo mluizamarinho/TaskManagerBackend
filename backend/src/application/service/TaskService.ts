@@ -4,21 +4,20 @@ class TaskService {
 
 
     // Cria uma nova tarefa
-    public async createTask(name: string, status: string, creationDate: string, conclusionDate?: string, userIds?: string[], boardId?: string) {
+    public async createTask(name: string, status: string, userIds?: string[], boardId?: string) {
         try {
             const task = await TaskRepository.createTask({
                 name,
-                status,
-                creation_date: new Date(creationDate),
-                conclusion_date: conclusionDate ? new Date(conclusionDate) : undefined,
+                status,  // "status" agora deve ser passado corretamente
                 users: userIds ? { connect: userIds.map(id => ({ id })) } : undefined,
                 board: boardId ? { connect: { id: boardId } } : undefined,
             });
             return task;
         } catch (error) {
-            throw new Error(`Failed to create task`);
-        }
+            throw new Error('Failed to create task'); 
     }
+}
+    
 
     // Retorna todas as tarefas
     public async getTasks() {
@@ -44,13 +43,11 @@ class TaskService {
     }
 
     // Atualiza uma tarefa existente
-    public async updateTask(id: string, name?: string, status?: string, creationDate?: string, conclusionDate?: string, userIds?: string[], boardId?: string) {
+    public async updateTask(id: string, name?: string, status?: string, userIds?: string[], boardId?: string) {
         try {
             const task = await TaskRepository.updateTask(id, {
                 name,
                 status,
-                creation_date: creationDate ? new Date(creationDate) : undefined,
-                conclusion_date: conclusionDate ? new Date(conclusionDate) : undefined,
                 users: userIds ? { connect: userIds.map(id => ({ id })) } : undefined,
                 board: boardId ? { connect: { id: boardId } } : undefined,
             });
